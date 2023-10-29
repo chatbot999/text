@@ -3,50 +3,75 @@
 .model small
 .stack 100h
 .data
-    Str db 100 dup("$")
-    str1 db 0ah, "palindrome $"
-    str2 db 0ah, "not palindrome $"
+str db 100 dup("$")
+str1 db 0ah, "palindrome $"
+str2 db 0ah, "not palindrome $"
 .code
 main proc
-    mov ax, @data
-    mov ds, ax
-    mov si, offset Str
-    mov cx, 00h
+mov ax, @data
+mov ds, ax
+mov si, offset Str
+mov cx, 00h
 readstr:
-    mov ah, 01h
-    int 21h
-    cmp al, 13
-    je disp
-    mov [si], al
-    inc si
-    inc cx
-    jmp readstr
+mov ah, 01h
+int 21h
+cmp al, 13
+je disp
+mov [si], al
+inc si
+inc cx
+jmp readstr
 disp:
-    mov si, offset Str
-    mov di, offset Str
-    add di, cx
-    dec di
+mov si, offset Str
+mov di, offset Str
+add di, cx
+dec di
 pal:
-    mov al, [si]
-    mov bl, [di]
-    cmp al, bl
-    jne npal
-    inc si
-    dec di
-    loop pal
-    mov dx, offset str1
-    mov ah, 09h
-    int 21h
-    jmp ex
+mov al, [si]
+mov bl, [di]
+cmp al, bl
+jne npal
+inc si
+dec di
+loop pal
+mov dx, offset str1
+mov ah, 09h
+int 21h
+jmp ex
 npal:
-    mov dx, offset str2
-    mov ah, 09h
-    int 21h
+mov dx, offset str2
+mov ah, 09h
+int 21h
 ex:
-    mov ah, 4ch
-    int 21h
+mov ah, 4ch
+int 21h
 main endp
 end main
+
+
+;multiplication tables
+dosseg
+.model small
+.stack 100h
+.data
+.code
+main proc
+mov ax,@data
+mov ds,ax
+mov cl,05h
+li:
+mov ch,00h
+mov dl,bl
+add dl,30h
+mov ah,2
+int 21h
+add bl,02h
+loop li
+mov ah,4ch
+int 21h
+main endp
+end main
+
 
 
 ;Greatest of 2 numbers
@@ -54,40 +79,40 @@ end main
 .model small
 .stack 100h
 .data
-    str1 db 10, 13, 'Enter first value: $'
-    str2 db 10, 13, 'Enter second value: $'
-    str3 db 10, 13, 'First Value Greater $'
-    str4 db 10, 13, 'Not greater,Second value Greater $'
+str1 db 10, 13, 'Enter first value: $'
+str2 db 10, 13, 'Enter second value: $'
+str3 db 10, 13, 'First Value Greater $'
+str4 db 10, 13, 'Not greater,Second value Greater $'
 .code
 main proc
-    mov ax, @data
-    mov ds, ax
-    mov dx, offset str1
-    mov ah, 9 
-    int 21h
-    mov ah, 1
-    int 21h
-    mov bl, al
-    mov dx, offset str2
-    mov ah, 9
-    int 21h
-    mov ah, 1
-    int 21h
-    cmp bl, al
-    jg greater
-    jl notgreater
+mov ax, @data
+mov ds, ax
+mov dx, offset str1
+mov ah, 9 
+int 21h
+mov ah, 1
+int 21h
+mov bl, al
+mov dx, offset str2
+mov ah, 9
+int 21h
+mov ah, 1
+int 21h
+cmp bl, al
+jg greater
+jl notgreater
 greater:
-    mov dx, offset str3
-    mov ah, 9
-    int 21h
-    jmp ex
+mov dx, offset str3
+mov ah, 9
+int 21h
+jmp ex
 notgreater:
-    mov dx, offset str4
-    mov ah, 9
-    int 21h
+mov dx, offset str4
+mov ah, 9
+int 21h
 ex:
-    mov ah, 4ch
-    int 21h
+mov ah, 4ch
+int 21h
 main endp
 end main
 
