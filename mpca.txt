@@ -1,0 +1,266 @@
+;Palindrome number
+
+.model small
+.stack 100h
+.data
+    Str db 100 dup("$")
+    str1 db 0ah, "palindrome $"
+    str2 db 0ah, "not palindrome $"
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov si, offset Str
+    mov cx, 00h
+readstr:
+    mov ah, 01h
+    int 21h
+    cmp al, 13
+    je disp
+    mov [si], al
+    inc si
+    inc cx
+    jmp readstr
+disp:
+    mov si, offset Str
+    mov di, offset Str
+    add di, cx
+    dec di
+pal:
+    mov al, [si]
+    mov bl, [di]
+    cmp al, bl
+    jne npal
+    inc si
+    dec di
+    loop pal
+    mov dx, offset str1
+    mov ah, 09h
+    int 21h
+    jmp ex
+npal:
+    mov dx, offset str2
+    mov ah, 09h
+    int 21h
+ex:
+    mov ah, 4ch
+    int 21h
+main endp
+end main
+
+
+;Greatest of 2 numbers
+
+.model small
+.stack 100h
+.data
+    str1 db 10, 13, 'Enter first value: $'
+    str2 db 10, 13, 'Enter second value: $'
+    str3 db 10, 13, 'First Value Greater $'
+    str4 db 10, 13, 'Not greater,Second value Greater $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov dx, offset str1
+    mov ah, 9 
+    int 21h
+    mov ah, 1
+    int 21h
+    mov bl, al
+    mov dx, offset str2
+    mov ah, 9
+    int 21h
+    mov ah, 1
+    int 21h
+    cmp bl, al
+    jg greater
+    jl notgreater
+greater:
+    mov dx, offset str3
+    mov ah, 9
+    int 21h
+    jmp ex
+notgreater:
+    mov dx, offset str4
+    mov ah, 9
+    int 21h
+ex:
+    mov ah, 4ch
+    int 21h
+main endp
+end main
+
+
+
+;Print a character 10 times[A]
+
+dosseg
+.model small
+.stack 100h
+.data
+.code
+main proc
+mov cx,10 
+printA:
+mov dl,65
+mov ah,2
+int 21h
+loop printA
+mov ah,4ch
+int 21h
+main endp
+end main
+
+
+
+;Write MASM Program to display SRU
+
+dosseg
+.MODEL SMALL
+.STACK 100H
+.DATA
+.CODE
+MAIN PROC
+MOV Dl,'S'
+MOV AH,2
+INT 21h
+MOV Dl,'R'
+MOV AH,2
+INT 21h
+MOV Dl,'U'
+MOV AH,2
+INT 21h
+MOV AH,4CH
+INT 21h
+MAIN ENDP
+END MAIN
+
+
+
+;Program on ALPHABETS[A-Z]
+
+dosseg
+.model small
+.stack 100h
+.data
+.code
+main proc
+mov cx,26
+mov dl,64
+printAZ:
+add dl,1
+mov ah,2
+int 21h
+loop printAZ
+mov ah,4ch
+int 21h
+main endp
+end main
+
+
+
+;Display a character  'A'
+
+dosseg
+.model small
+.stack 100h
+.data
+.code
+main proc
+mov dl,65
+mov ah,2
+int 21h
+mov ah,4ch
+int 21h
+main endp
+end main
+
+
+
+;Division
+
+dosseg
+.model small
+.stack 100h
+.data
+.code
+main proc
+mov al,5
+mov bl,2
+div bl
+add ah,48
+mov dl,ah
+mov ah,2
+int 21h
+mov ah,4ch
+int 21h
+main endp
+end main
+
+
+
+;Print 0-9 Numbers
+
+dosseg
+.model small
+.stack 100h
+.data
+.code
+main proc
+mov cx,10
+mov dl,47
+print:
+add dl,1
+mov ah,2
+int 21h
+loop print
+mov ah,4ch
+int 21h
+main endp
+end main
+
+
+
+;Even or Odd
+
+dosseg
+.stack 100h
+.model small
+.data
+str1 db 10,"enter the valuse$"
+str2 db 10,"even$"
+str3 db 10,"odd$"
+.code
+main proc
+mov ax,@data
+mov ds,ax
+mov dx,offset str1
+mov ah,9
+int 21h
+mov ah,1
+int 21h
+sub al,48
+mov bl,2
+mov ah,0
+div bl
+mov ch,ah
+mov dl,0
+cmp ch,dl
+je evnnum
+jne odd
+evnnum:
+mov dx,offset str2
+mov ah,9
+int 21h
+jmp ex
+odd:
+mov dx,offset str3
+mov ah,9
+int 21h
+jmp ex
+ex:
+mov ah,4ch
+int 21h
+main endp
+end main
